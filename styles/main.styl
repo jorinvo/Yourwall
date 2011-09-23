@@ -1,0 +1,208 @@
+@font-face
+  font-family Projects
+  font-style normal
+  src url(Projects.ttf)
+
+
+
+font-family: 'Monofett', cursive
+font-family: 'Cabin Sketch', cursive
+font-family: 'Sniglet', cursive
+
+
+border-radius(s)
+  -webkit-border-radius s
+  -moz-border-radius s
+  border-radius s
+
+box-shadow(s...)
+  -webkit-box-shadow s
+  -moz-box-shadow s
+  box-shadow s
+
+transform(s...)
+  -webkit-transform s
+  -moz-transform s
+  -o-transform s
+  -ms-transform s
+
+transition(s...)
+  -webkit-transition s
+  -moz-transition s
+  -o-transition s
+
+body
+  background-color #ffc540
+
+#container
+  background-color rgba(110, 132, 214, 0.9)
+  &:hover
+    background-color rgba(110, 132, 214, 1)
+  transition All ease 1
+  margin 100px auto
+  height 500px
+  width 900px
+  position relative
+  border-radius 10px
+  cursor pointer
+
+#message
+  position absolute
+  z-index 1
+  background-color rgba(255, 255, 255, 0.2)
+  border-radius 5px
+  border 1px dashed white
+  color white
+  padding 2px
+  text-align center
+  cursor text
+  font-family Sniglet
+  font-size 20px
+  min-width 70px
+  min height 30px
+  top 20px
+  left 20px
+  box-shadow 0 0 5px grey
+  tab-index 1
+
+
+.post
+  position absolute
+  padding 2px
+  text-align center
+
+
+#menu
+  background-color #071d70
+  z-index 3
+  width 100%
+  position fixed
+  top 0
+  left 0
+  box-shadow 0 0 20px black
+
+#logo
+  position relative
+  float left
+  margin 1px
+  padding 4px
+  color white
+  font-family Projects
+  font-size 20px
+  border-radius 7px
+  text-shadow 1px -1px 2px white
+
+#right
+  position relative
+  float right
+
+picker()
+  position relative
+  float left
+  background-color white
+  border-radius 5px
+  margin 4px 2px
+  box-shadow 0 0 3px white
+
+#size
+  width 130px
+  cursor pointer
+  margin 6px 10px 
+  a
+    cursor pointer
+
+#sizePicker
+  picker()
+  height 28px
+
+
+#colorPicker
+  picker()
+  padding 2px
+  .ui-selected
+    box-shadow 0 0 10px black
+    border 1px solid rgba(0,0,0,1)
+
+.color
+  position relative
+  margin 1px
+  float left
+  height 20px
+  width 20px
+  border-radius 5px
+  cursor pointer
+  border 1px solid rgba(0,0,0,0.5)
+  &:hover
+    box-shadow 0 0 5px black
+  transition All ease 0.3s
+
+
+#white
+  background-color white
+
+#pink
+  background-color #FF00B3
+
+#red
+  background-color #ff0000
+
+#yellow
+  background-color #ffff00
+
+#green
+  background-color #5de100
+
+#blue
+  background-color #3914af
+
+#black
+  background-color black
+
+
+#fontPicker
+  picker()
+  height 28px
+  .ui-selected
+    text-shadow 1px -1px 3px #6e84d6
+
+.font
+  position relative
+  float left
+  margin 2px
+  font-size 21px
+  color black
+  cursor pointer
+  &:hover
+    text-shadow 0 0 1px #6e84d6
+  transition All ease 0.3s
+
+
+#sniglet
+  padding-top 3px
+  font-family Sniglet
+#monofett
+  font-family Monofett
+#cabinSketch
+  font-family Cabin Sketch
+
+
+#submit
+  position relative
+  float left
+  height 28px
+  width 28px
+  margin 4px 4px 4px 2px
+  border-radius 5px
+  background-color white
+  box-shadow 0 0 5px white
+  div
+    background-image url(../img/submit_black.png)
+    width 100%
+    height 100%
+    cursor pointer
+    &:hover
+      opacity 0.9
+    &:active
+      opacity 0.7
+    transition All ease 0.3s
+

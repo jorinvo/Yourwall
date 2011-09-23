@@ -1,0 +1,35 @@
+@font-face{font-family:Projects;font-style:normal;src:url("Projects.ttf")}
+font-family: "Monofett",cursive,font-family: "Cabin Sketch",cursive,font-family: "Sniglet",cursive,border-radius(s){-webkit-border-radius:s;-moz-border-radius:s;border-radius:s}
+body{background-color:#ffc540}
+#container{background-color:rgba(110,132,214,0.90);-webkit-transition:All ease 1;-moz-transition:All ease 1;-o-transition:All ease 1;margin:100px auto;height:500px;width:900px;position:relative;border-radius:10px;cursor:pointer}
+#container:hover{background-color:#6e84d6}
+#message{position:absolute;z-index:1;background-color:rgba(255,255,255,0.20);border-radius:5px;border:1px dashed #fff;color:#fff;padding:2px;text-align:center;cursor:text;font-family:Sniglet;font-size:20px;min-width:70px;top:20px;left:20px;-webkit-box-shadow:0 0 5px #808080;-moz-box-shadow:0 0 5px #808080;box-shadow:0 0 5px #808080;tab-index:1}
+.post{position:absolute;padding:2px;text-align:center}
+#menu{background-color:#071d70;z-index:3;width:100%;position:fixed;top:0;left:0;-webkit-box-shadow:0 0 20px #000;-moz-box-shadow:0 0 20px #000;box-shadow:0 0 20px #000}
+#logo{position:relative;float:left;margin:1px;padding:4px;color:#fff;font-family:Projects;font-size:20px;border-radius:7px;text-shadow:1px -1px 2px #fff}
+#right{position:relative;float:right}
+#size{width:130px;cursor:pointer;margin:6px 10px;}
+#size a{cursor:pointer}
+#sizePicker{position:relative;float:left;background-color:#fff;border-radius:5px;margin:4px 2px;-webkit-box-shadow:0 0 3px #fff;-moz-box-shadow:0 0 3px #fff;box-shadow:0 0 3px #fff;height:28px}
+#colorPicker{position:relative;float:left;background-color:#fff;border-radius:5px;margin:4px 2px;-webkit-box-shadow:0 0 3px #fff;-moz-box-shadow:0 0 3px #fff;box-shadow:0 0 3px #fff;padding:2px;}
+#colorPicker .ui-selected{-webkit-box-shadow:0 0 10px #000;-moz-box-shadow:0 0 10px #000;box-shadow:0 0 10px #000;border:1px solid #000}
+.color{position:relative;margin:1px;float:left;height:20px;width:20px;border-radius:5px;cursor:pointer;border:1px solid rgba(0,0,0,0.50);-webkit-transition:All ease .3s;-moz-transition:All ease .3s;-o-transition:All ease .3s}
+.color:hover{-webkit-box-shadow:0 0 5px #000;-moz-box-shadow:0 0 5px #000;box-shadow:0 0 5px #000}
+#white{background-color:#fff}
+#pink{background-color:#ff00b3}
+#red{background-color:#f00}
+#yellow{background-color:#ff0}
+#green{background-color:#5de100}
+#blue{background-color:#3914af}
+#black{background-color:#000}
+#fontPicker{position:relative;float:left;background-color:#fff;border-radius:5px;margin:4px 2px;-webkit-box-shadow:0 0 3px #fff;-moz-box-shadow:0 0 3px #fff;box-shadow:0 0 3px #fff;height:28px;}
+#fontPicker .ui-selected{text-shadow:1px -1px 3px #6e84d6}
+.font{position:relative;float:left;margin:2px;font-size:21px;color:#000;cursor:pointer;-webkit-transition:All ease .3s;-moz-transition:All ease .3s;-o-transition:All ease .3s}
+.font:hover{text-shadow:0 0 1px #6e84d6}
+#sniglet{padding-top:3px;font-family:Sniglet}
+#monofett{font-family:Monofett}
+#cabinSketch{font-family:Cabin Sketch}
+#submit{position:relative;float:left;height:28px;width:28px;margin:4px 4px 4px 2px;border-radius:5px;background-color:#fff;-webkit-box-shadow:0 0 5px #fff;-moz-box-shadow:0 0 5px #fff;box-shadow:0 0 5px #fff;}
+#submit div{background-image:url("../img/submit_black.png");width:100%;height:100%;cursor:pointer;-webkit-transition:All ease .3s;-moz-transition:All ease .3s;-o-transition:All ease .3s}
+#submit div:hover{opacity:.9}
+#submit div:active{opacity:.7}

@@ -1,0 +1,47 @@
+!!! 5
+html
+  head
+    meta(charset='utf-8')
+    meta(content='IE=edge,chrome=1', http-equiv='X-UA-Compatible')
+    title This Wall is for You All
+    meta(content='Do whatever you want. Just have Fun.', name='description')
+    meta(content='jorin vogel', name='author')
+    meta(content='width=device-width, initial-scale=1.0', name='viewport')
+    link(href='styles/main.css', rel='stylesheet')
+    link(href='styles/jquery-ui-1.8.16.css', rel='stylesheet')
+    link(href='http://fonts.googleapis.com/css?family=Monofett|Cabin+Sketch:700|Sniglet:800&v2', rel='stylesheet')
+  body
+    #container
+      #message(contenteditable='') whats up
+    #menu
+      #logo Your Wall
+      #right
+        #sizePicker
+          #size
+        #colorPicker
+          #white.color.ui-selected
+          #pink.color
+          #red.color
+          #yellow.color
+          #green.color
+          #blue.color
+          #black.color
+        #fontPicker
+          #sniglet.font.ui-selected abc
+          #monofett.font abc
+          #cabinSketch.font abc
+        #submit: div
+          
+
+    script#post-template(type='text/template')
+      <div class="post" style="font: {{size}}px {{font}}; color: {{color}}; left: {{position.x}}px; top: {{position.y}}px; -webkit-transform: rotate({{random}}deg); -moz-transform: rotate({{random}}deg); -o-transform: rotate({{random}}deg); -ms-transform: rotate({{random}}deg);">
+      {{content}}
+      </div>
+
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js')
+    script
+      window.jQuery || document.write('<script src="scripts/jquery-1.6.2.js">&lt;\/script>')
+    script(src='scripts/jquery-ui-1.8.16.js')
+    script(src='scripts/underscore.js')
+    script(src='scripts/backbone.js')
+    script(src='scripts/main.js')
