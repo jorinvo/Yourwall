@@ -149,7 +149,7 @@ $(function() {
         });
         post = this.newPost.toJSON();
         posts.add(post);
-        socket.emit('post', post);
+        socket.emit('new', post);
         return this.frame.fadeOut(500, __bind(function() {
           this.msgVisible = false;
           return this.newPost.set({
@@ -209,13 +209,18 @@ $(function() {
       PostCollection.__super__.constructor.apply(this, arguments);
     }
     PostCollection.prototype.initialize = function() {
-      return this.bind('add', this.addPost);
+      this.bind('add', this.addPost);
+      return this.bind('remove');
     };
     PostCollection.prototype.model = Post;
     PostCollection.prototype.addPost = function(post) {
-      return new PostView({
+      new PostView({
         model: post
       });
+      if (this.length > 3) {
+        this.models.shift();
+        return this.trigger('remove');
+      }
     };
     return PostCollection;
   })();

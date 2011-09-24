@@ -121,7 +121,7 @@ $ ->
           height: @msg.height()
         post = @newPost.toJSON()
         posts.add( post )
-        socket.emit 'post', post
+        socket.emit 'new', post
         @frame.fadeOut 500, => 
           @msgVisible = no
           @newPost.set( content: '' )
@@ -172,6 +172,7 @@ $ ->
 
     initialize: ->
       @bind 'add', @addPost
+      @bind 'remove', 
 
     model: Post
     # addNew
@@ -184,6 +185,9 @@ $ ->
 
     addPost: (post) ->
       new PostView( model: post )
+      if @length > 3 
+        @models.shift()
+        @trigger 'remove'
 
        # @models.shift() if @length > 5
  # 
