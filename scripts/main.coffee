@@ -2,8 +2,14 @@
 # jQuery is required...
 $ ->
 
-  $('#container').hide().delay(800).fadeIn(800)
-  $("#menu").hide().delay(1000).slideDown(500)
+  socket = io.connect()
+
+  socket.on 'post', (post) ->
+    console.log post
+    posts.add(post)
+
+  $('#container').delay(800).fadeIn(800)
+  $("#menu").delay(1000).slideDown(500)
   $('#message').hide()
 
   _.templateSettings = 
@@ -16,29 +22,41 @@ $ ->
     msgVisible: no
 
     initialize: ->
+
       @newPost = new Post
-        content: 'whats up'
+        content: ''
         font: 'Sniglet'
         size: 20
         color: '#fff'
         position: { x: 10, y: 10 }
+
       @newPost.bind 'change:content', @renderContent
       @newPost.bind 'change:size', @renderSize
       @newPost.bind 'change:color', @renderColor
       @newPost.bind 'change:font', @renderFont
       @newPost.bind 'change:position', @renderPosition
-      @msg = $('#message')
+
+      @msg = $('#message input')
+      @frame = $('#message')
+      @frame.draggable
+        containment: 'parent'
+        delay: 150
+        distance: 8
+        cursor: 'move'
       @slider = $('#size')
       @slider.slider
         animate: on
         value: 20
         max: 60
         min: 10
+
       $('#colorPicker').selectable()
       $('#fontPicker').selectable()
 
+
+
     renderContent: =>
-      @msg.text @newPost.get('content')
+      @msg.val @newPost.get('content')
 
 
     renderSize: =>
@@ -55,16 +73,16 @@ $ ->
 
     renderPosition: =>
       pos = @newPost.get('position')
-      @msg.animate
-          left: pos.x
+      @frame.animate
+          left: pos.x - 32
           top: pos.y
       if not @msgVisible
-        @msg.fadeIn().delay(600).focus()
+        @frame.fadeIn 400, => @msg.focus()
         @msgVisible = yes
 
 
     events:
-      'slidechange #size'               : 'resize'
+      'slidechange #size'               : 'resizeNFocus'
       'slide #size'                     : 'resize'
       'selectableselected #colorPicker' : 'changeColor'
       'selectableselected #fontPicker'  : 'changeFont'
@@ -75,6 +93,11 @@ $ ->
 
     resize: ->
       @newPost.set( size: @slider.slider('value') )
+
+
+    resizeNFocus: ->
+      @resize()
+      @msg.focus()
       
     changeColor: (e, ui) ->
       @newPost.set
@@ -86,29 +109,34 @@ $ ->
 
     changePosition: (e) ->
       @newPost.set position: 
-        x: e.pageX - $( e.currentTarget ).position().left - 2 - 0.5 * @msg.width()
-        y: e.pageY - 102 - 0.5 * @msg.height()
+        x: e.pageX + 22 - $( e.currentTarget ).position().left 
+        y: e.pageY - 100 - 0.5 * @frame.height()
+      @msg.focus()
 
     savePost: ->
-      posts.add( @newPost.toJSON() )
-      @msg.fadeOut() and @msgVisible = no
-      @newPost.set( content: '' )
-
-    keyHandler: (e) ->
-      if e.which is 13 and not e.shiftKey
-        e.preventDefault()
-        savePost()
-      else if e.which is 27
-          @msg.fadeOut()
+      if @msg.val().length > 2
+        @newPost.set 
+          content: @msg.val()
+          width: @msg.width()
+          height: @msg.height()
+        post = @newPost.toJSON()
+        posts.add( post )
+        socket.emit 'post', post
+        @frame.fadeOut 500, => 
           @msgVisible = no
           @newPost.set( content: '' )
-      else
-        m = @msg.text()
-        if m.length < 50 or e.which is 8
-          @newPost.set( {content: m}, {silent: yes} )
-        else 
-          e.preventDefault()
-          alert 'to long ya dong'
+
+    keyHandler: (e) ->
+
+      switch e.which
+        when 27
+          @frame.fadeOut()
+          @msgVisible = no
+          @newPost.set( content: '' )
+
+        when 13
+          @savePost()
+
       #
       #   ckeck for img
 
@@ -143,7 +171,7 @@ $ ->
   class PostCollection extends Backbone.Collection
 
     initialize: ->
-      @bind 'add', @checkLength
+      @bind 'add', @addPost
 
     model: Post
     # addNew
@@ -154,7 +182,7 @@ $ ->
     #   check for length -> remove 1
     #   add -> render
 
-    checkLength: (post) ->
+    addPost: (post) ->
       new PostView( model: post )
 
        # @models.shift() if @length > 5

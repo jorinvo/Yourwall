@@ -1,9 +1,9 @@
 @font-face{font-family:Projects;font-style:normal;src:url("Projects.ttf")}
 font-family: "Monofett",cursive,font-family: "Cabin Sketch",cursive,font-family: "Sniglet",cursive,border-radius(s){-webkit-border-radius:s;-moz-border-radius:s;border-radius:s}
 body{background-color:#ffc540}
-#container{background-color:rgba(110,132,214,0.90);-webkit-transition:All ease 1;-moz-transition:All ease 1;-o-transition:All ease 1;margin:100px auto;height:500px;width:900px;position:relative;border-radius:10px;cursor:pointer}
-#container:hover{background-color:#6e84d6}
-#message{position:absolute;z-index:1;background-color:rgba(255,255,255,0.20);border-radius:5px;border:1px dashed #fff;color:#fff;padding:2px;text-align:center;cursor:text;font-family:Sniglet;font-size:20px;min-width:70px;top:20px;left:20px;-webkit-box-shadow:0 0 5px #808080;-moz-box-shadow:0 0 5px #808080;box-shadow:0 0 5px #808080;tab-index:1}
+#container{background-color:#6e84d6;-webkit-transition:All ease 1;-moz-transition:All ease 1;-o-transition:All ease 1;margin:100px auto;height:500px;width:900px;position:relative;border-radius:10px;cursor:pointer}
+#message{position:absolute;z-index:1;background-color:rgba(255,255,255,0.50);border-radius:5px;padding-left:20px;-webkit-box-shadow:0 0 5px #808080;-moz-box-shadow:0 0 5px #808080;box-shadow:0 0 5px #808080;cursor:move;tab-index:1}
+#message input{padding:2px;border-radius:5px;background-color:rgba(110,132,214,0.50);color:#fff;font-family:Sniglet;font-size:20px;border:none}
 .post{position:absolute;padding:2px;text-align:center}
 #menu{background-color:#071d70;z-index:3;width:100%;position:fixed;top:0;left:0;-webkit-box-shadow:0 0 20px #000;-moz-box-shadow:0 0 20px #000;box-shadow:0 0 20px #000}
 #logo{position:relative;float:left;margin:1px;padding:4px;color:#fff;font-family:Projects;font-size:20px;border-radius:7px;text-shadow:1px -1px 2px #fff}

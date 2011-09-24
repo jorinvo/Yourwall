@@ -12,7 +12,8 @@ html
     link(href='http://fonts.googleapis.com/css?family=Monofett|Cabin+Sketch:700|Sniglet:800&v2', rel='stylesheet')
   body
     #container
-      #message(contenteditable='') whats up
+      #message
+        input(maxlength=25, size=25) 
     #menu
       #logo Your Wall
       #right
@@ -34,7 +35,7 @@ html
           
 
     script#post-template(type='text/template')
-      <div class="post" style="font: {{size}}px {{font}}; color: {{color}}; left: {{position.x}}px; top: {{position.y}}px; -webkit-transform: rotate({{random}}deg); -moz-transform: rotate({{random}}deg); -o-transform: rotate({{random}}deg); -ms-transform: rotate({{random}}deg);">
+      <div class="post" style="font: {{size}}px {{font}}; color: {{color}}; left: {{position.x}}px; top: {{position.y}}px; widht: {{width}}px; height: {{height}}px; -webkit-transform: rotate({{random}}deg); -moz-transform: rotate({{random}}deg); -o-transform: rotate({{random}}deg); -ms-transform: rotate({{random}}deg);">
       {{content}}
       </div>
 
@@ -44,4 +45,5 @@ html
     script(src='scripts/jquery-ui-1.8.16.js')
     script(src='scripts/underscore.js')
     script(src='scripts/backbone.js')
+    script(src="/socket.io/socket.io.js")
     script(src='scripts/main.js')

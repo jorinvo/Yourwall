@@ -7,9 +7,14 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
   return child;
 };
 $(function() {
-  var Post, PostCollection, PostView, Wall, posts, wall;
-  $('#container').hide().delay(800).fadeIn(800);
-  $("#menu").hide().delay(1000).slideDown(500);
+  var Post, PostCollection, PostView, Wall, posts, socket, wall;
+  socket = io.connect();
+  socket.on('post', function(post) {
+    console.log(post);
+    return posts.add(post);
+  });
+  $('#container').delay(800).fadeIn(800);
+  $("#menu").delay(1000).slideDown(500);
   $('#message').hide();
   _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
@@ -28,7 +33,7 @@ $(function() {
     Wall.prototype.msgVisible = false;
     Wall.prototype.initialize = function() {
       this.newPost = new Post({
-        content: 'whats up',
+        content: '',
         font: 'Sniglet',
         size: 20,
         color: '#fff',
@@ -42,7 +47,14 @@ $(function() {
       this.newPost.bind('change:color', this.renderColor);
       this.newPost.bind('change:font', this.renderFont);
       this.newPost.bind('change:position', this.renderPosition);
-      this.msg = $('#message');
+      this.msg = $('#message input');
+      this.frame = $('#message');
+      this.frame.draggable({
+        containment: 'parent',
+        delay: 150,
+        distance: 8,
+        cursor: 'move'
+      });
       this.slider = $('#size');
       this.slider.slider({
         animate: true,
@@ -54,7 +66,7 @@ $(function() {
       return $('#fontPicker').selectable();
     };
     Wall.prototype.renderContent = function() {
-      return this.msg.text(this.newPost.get('content'));
+      return this.msg.val(this.newPost.get('content'));
     };
     Wall.prototype.renderSize = function() {
       var oldWidth;
@@ -78,17 +90,19 @@ $(function() {
     Wall.prototype.renderPosition = function() {
       var pos;
       pos = this.newPost.get('position');
-      this.msg.animate({
-        left: pos.x,
+      this.frame.animate({
+        left: pos.x - 32,
         top: pos.y
       });
       if (!this.msgVisible) {
-        this.msg.fadeIn().delay(600).focus();
+        this.frame.fadeIn(400, __bind(function() {
+          return this.msg.focus();
+        }, this));
         return this.msgVisible = true;
       }
     };
     Wall.prototype.events = {
-      'slidechange #size': 'resize',
+      'slidechange #size': 'resizeNFocus',
       'slide #size': 'resize',
       'selectableselected #colorPicker': 'changeColor',
       'selectableselected #fontPicker': 'changeFont',
@@ -102,6 +116,10 @@ $(function() {
         size: this.slider.slider('value')
       });
     };
+    Wall.prototype.resizeNFocus = function() {
+      this.resize();
+      return this.msg.focus();
+    };
     Wall.prototype.changeColor = function(e, ui) {
       return this.newPost.set({
         color: $(ui.selected).css('background-color')
@@ -113,43 +131,43 @@ $(function() {
       });
     };
     Wall.prototype.changePosition = function(e) {
-      return this.newPost.set({
+      this.newPost.set({
         position: {
-          x: e.pageX - $(e.currentTarget).position().left - 2 - 0.5 * this.msg.width(),
-          y: e.pageY - 102 - 0.5 * this.msg.height()
+          x: e.pageX + 22 - $(e.currentTarget).position().left,
+          y: e.pageY - 100 - 0.5 * this.frame.height()
         }
       });
+      return this.msg.focus();
     };
     Wall.prototype.savePost = function() {
-      posts.add(this.newPost.toJSON());
-      this.msg.fadeOut() && (this.msgVisible = false);
-      return this.newPost.set({
-        content: ''
-      });
+      var post;
+      if (this.msg.val().length > 2) {
+        this.newPost.set({
+          content: this.msg.val(),
+          width: this.msg.width(),
+          height: this.msg.height()
+        });
+        post = this.newPost.toJSON();
+        posts.add(post);
+        socket.emit('post', post);
+        return this.frame.fadeOut(500, __bind(function() {
+          this.msgVisible = false;
+          return this.newPost.set({
+            content: ''
+          });
+        }, this));
+      }
     };
     Wall.prototype.keyHandler = function(e) {
-      var m;
-      if (e.which === 13 && !e.shiftKey) {
-        e.preventDefault();
-        return savePost();
-      } else if (e.which === 27) {
-        this.msg.fadeOut();
-        this.msgVisible = false;
-        return this.newPost.set({
-          content: ''
-        });
-      } else {
-        m = this.msg.text();
-        if (m.length < 50 || e.which === 8) {
+      switch (e.which) {
+        case 27:
+          this.frame.fadeOut();
+          this.msgVisible = false;
           return this.newPost.set({
-            content: m
-          }, {
-            silent: true
+            content: ''
           });
-        } else {
-          e.preventDefault();
-          return alert('to long ya dong');
-        }
+        case 13:
+          return this.savePost();
       }
     };
     Wall.prototype.stopPropagation = function(e) {
@@ -191,10 +209,10 @@ $(function() {
       PostCollection.__super__.constructor.apply(this, arguments);
     }
     PostCollection.prototype.initialize = function() {
-      return this.bind('add', this.checkLength);
+      return this.bind('add', this.addPost);
     };
     PostCollection.prototype.model = Post;
-    PostCollection.prototype.checkLength = function(post) {
+    PostCollection.prototype.addPost = function(post) {
       return new PostView({
         model: post
       });
