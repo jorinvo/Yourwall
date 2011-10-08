@@ -9,9 +9,14 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 $(function() {
   var Post, PostCollection, PostView, Wall, posts, socket, wall;
   socket = io.connect();
-  socket.on('post', function(post) {
-    console.log(post);
-    return posts.add(post);
+  socket.on('posts', function(p) {
+    var post, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = p.length; _i < _len; _i++) {
+      post = p[_i];
+      _results.push(posts.add(post));
+    }
+    return _results;
   });
   $('#container').delay(800).fadeIn(800);
   $("#menu").delay(1000).slideDown(500);
@@ -214,13 +219,9 @@ $(function() {
     };
     PostCollection.prototype.model = Post;
     PostCollection.prototype.addPost = function(post) {
-      new PostView({
+      return new PostView({
         model: post
       });
-      if (this.length > 3) {
-        this.models.shift();
-        return this.trigger('remove');
-      }
     };
     return PostCollection;
   })();

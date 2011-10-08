@@ -2,6 +2,11 @@
 path = require('path')
 express = require('express')
 stylus = require 'stylus'
+redis = require 'redis'
+client = redis.createClient()
+
+client.on 'error', (err) -> console.log 'Error: ' + err
+
 app = module.exports = express.createServer()
 io = require('socket.io').listen(app)
 
@@ -33,13 +38,18 @@ app.configure 'production', ->
 app.get '/', (req, res) ->
   res.render 'index', layout: false
 
-app.get /\/(.*)\.html/, (req, res) ->
-  res.render req.params[0], layout: false
-
 app.listen(process.env.PORT or 3000)
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)
 
 
 io.sockets.on 'connection', (socket) ->
+  client.lrange 'posts', 0, -1, (err, posts) ->
+    p = posts[0..-2]
+    posts = []
+    for post in p
+      posts.push JSON.parse post
+    socket.emit 'posts', posts
   socket.on 'new', (post) ->
-    socket.broadcast.emit 'post', post
+    socket.broadcast.emit 'posts', [post]
+    client.lpush 'posts', JSON.stringify post
+    client.ltrim 'posts', 0, 50

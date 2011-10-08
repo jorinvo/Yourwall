@@ -4,9 +4,9 @@ $ ->
 
   socket = io.connect()
 
-  socket.on 'post', (post) ->
-    console.log post
-    posts.add(post)
+  socket.on 'posts', (p) ->
+    for post in p
+      posts.add post
 
   $('#container').delay(800).fadeIn(800)
   $("#menu").delay(1000).slideDown(500)
@@ -185,12 +185,6 @@ $ ->
 
     addPost: (post) ->
       new PostView( model: post )
-      if @length > 3 
-        @models.shift()
-        @trigger 'remove'
-
-       # @models.shift() if @length > 5
- # 
 
 
   wall = new Wall
