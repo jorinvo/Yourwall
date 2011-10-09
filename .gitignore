@@ -1,3 +1,9 @@
+.gitignore
+
 node_modules
+
 r.sh
+
 s.vim
+
+.livereload

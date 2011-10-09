@@ -51,5 +51,5 @@ io.sockets.on 'connection', (socket) ->
     socket.emit 'posts', posts
   socket.on 'new', (post) ->
     socket.broadcast.emit 'posts', [post]
-    client.lpush 'posts', JSON.stringify post
+    client.rpush 'posts', JSON.stringify post
     client.ltrim 'posts', 0, 50

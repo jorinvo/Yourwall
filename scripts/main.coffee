@@ -109,7 +109,7 @@ $ ->
 
     changePosition: (e) ->
       @newPost.set position: 
-        x: e.pageX + 22 - $( e.currentTarget ).position().left 
+        x: e.pageX - @msg.width() / 2 - $( e.currentTarget ).position().left 
         y: e.pageY - 100 - 0.5 * @frame.height()
       @msg.focus()
 
