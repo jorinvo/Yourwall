@@ -44,7 +44,7 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 io.sockets.on 'connection', (socket) ->
   client.lrange 'posts', 0, -1, (err, posts) ->
-    p = posts[0..-2]
+    p = posts[1..-1]
     posts = []
     for post in p
       posts.push JSON.parse post
