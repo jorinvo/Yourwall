@@ -46,8 +46,8 @@ $ ->
       @slider = $('#size')
       @slider.slider
         animate: on
-        value: 20
-        max: 60
+        value: 17
+        max: 35
         min: 10
 
       $('#colorPicker').selectable()
@@ -86,14 +86,14 @@ $ ->
       'slide #size'                     : 'resize'
       'selectableselected #colorPicker' : 'changeColor'
       'selectableselected #fontPicker'  : 'changeFont'
-      'click #container'                : 'changePosition'
+      'click #clickable'                : 'changePosition'
       'click #submit'                   : 'savePost'
       'keydown #message'                : 'keyHandler'
       'click #message'                  : 'stopPropagation'
 
+
     resize: ->
       @newPost.set( size: @slider.slider('value') )
-
 
     resizeNFocus: ->
       @resize()
@@ -109,7 +109,7 @@ $ ->
 
     changePosition: (e) ->
       @newPost.set position: 
-        x: e.pageX - @msg.width() / 2 - $( e.currentTarget ).position().left 
+        x: e.pageX - @msg.width() / 2 - $('#container').position().left 
         y: e.pageY - 100 - 0.5 * @frame.height()
       @msg.focus()
 
@@ -172,20 +172,14 @@ $ ->
 
     initialize: ->
       @bind 'add', @addPost
-      @bind 'remove', 
+      @title = 'Yourwall - This Wall is for You All!'
 
     model: Post
-    # addNew
-    #   check for length -> remove 1
-    #   add -> render
-    #   emit to server
-    # get from server
-    #   check for length -> remove 1
-    #   add -> render
 
-    addPost: (post) ->
+    addPost: (post) =>
       new PostView( model: post )
-
+      document.title = 'new Things on your Wall!'
+      setTimeout (=> document.title = @title), 4000
 
   wall = new Wall
   posts  = new PostCollection

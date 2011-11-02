@@ -12,10 +12,11 @@ html
     link(href='http://fonts.googleapis.com/css?family=Monofett|Cabin+Sketch:700|Sniglet:800&v2', rel='stylesheet')
   body
     #container
-      #message
-        input(maxlength=25, size=25) 
+      #clickable
+        #message
+          input(maxlength=25, size=25) 
     #menu
-      #logo Your Wall
+      a(href="http://github.com/jorin-vogel/Yourwall", target="blank")#logo Your Wall
       #right
         #sizePicker
           #size
@@ -35,9 +36,9 @@ html
           
 
     script#post-template(type='text/template')
-      <div class="post" style="font: {{size}}px {{font}}; color: {{color}}; left: {{position.x}}px; top: {{position.y}}px; widht: {{width}}px; height: {{height}}px; -webkit-transform: rotate({{random}}deg); -moz-transform: rotate({{random}}deg); -o-transform: rotate({{random}}deg); -ms-transform: rotate({{random}}deg);">
-      {{content}}
-      </div>
+      .post(style="font: {{size}}px {{font}}; color: {{color}}; left: {{position.x}}px; top: {{position.y}}px; width: {{width}}px; height: {{height}}px; -webkit-transform: rotate({{random}}deg); -moz-transform: rotate({{random}}deg); -o-transform: rotate({{random}}deg); -ms-transform: rotate({{random}}deg);")
+        p
+          {{content}}
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js')
     script

@@ -63,8 +63,8 @@ $(function() {
       this.slider = $('#size');
       this.slider.slider({
         animate: true,
-        value: 20,
-        max: 60,
+        value: 17,
+        max: 35,
         min: 10
       });
       $('#colorPicker').selectable();
@@ -111,7 +111,7 @@ $(function() {
       'slide #size': 'resize',
       'selectableselected #colorPicker': 'changeColor',
       'selectableselected #fontPicker': 'changeFont',
-      'click #container': 'changePosition',
+      'click #clickable': 'changePosition',
       'click #submit': 'savePost',
       'keydown #message': 'keyHandler',
       'click #message': 'stopPropagation'
@@ -138,7 +138,7 @@ $(function() {
     Wall.prototype.changePosition = function(e) {
       this.newPost.set({
         position: {
-          x: e.pageX - this.msg.width() / 2 - $(e.currentTarget).position().left,
+          x: e.pageX - this.msg.width() / 2 - $('#container').position().left,
           y: e.pageY - 100 - 0.5 * this.frame.height()
         }
       });
@@ -211,17 +211,22 @@ $(function() {
   PostCollection = (function() {
     __extends(PostCollection, Backbone.Collection);
     function PostCollection() {
+      this.addPost = __bind(this.addPost, this);
       PostCollection.__super__.constructor.apply(this, arguments);
     }
     PostCollection.prototype.initialize = function() {
       this.bind('add', this.addPost);
-      return this.bind('remove');
+      return this.title = 'Yourwall - This Wall is for You All!';
     };
     PostCollection.prototype.model = Post;
     PostCollection.prototype.addPost = function(post) {
-      return new PostView({
+      new PostView({
         model: post
       });
+      document.title = 'new Things on your Wall!';
+      return setTimeout((__bind(function() {
+        return document.title = this.title;
+      }, this)), 4000);
     };
     return PostCollection;
   })();
