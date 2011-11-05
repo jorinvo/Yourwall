@@ -8,19 +8,35 @@ var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments)
 };
 $(function() {
   var Post, PostCollection, PostView, Wall, posts, socket, wall;
-  socket = io.connect();
-  socket.on('posts', function(p) {
-    var post, _i, _len, _results;
-    _results = [];
-    for (_i = 0, _len = p.length; _i < _len; _i++) {
-      post = p[_i];
-      _results.push(posts.add(post));
-    }
-    return _results;
-  });
-  $('#container').delay(800).fadeIn(800);
-  $("#menu").delay(1000).slideDown(500);
+  $.fn.spin = function(opts) {
+    this.each(function() {
+      var $this, data;
+      $this = $(this);
+      data = $this.data();
+      if (data.spinner) {
+        data.spinner.stop();
+        delete data.spinner;
+      }
+      if (opts !== false) {
+        return data.spinner = new Spinner($.extend({
+          color: "#FFF"
+        }, opts)).spin(this);
+      }
+    });
+    return this;
+  };
   $('#message').hide();
+  $('#container').spin({
+    lines: 10,
+    length: 11,
+    width: 4,
+    radius: 10,
+    color: '#FFF',
+    speed: '0.9',
+    trail: 58,
+    shadow: false
+  }).delay(800).fadeIn(800);
+  $("#menu").delay(1000).slideDown(500);
   _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
   };
@@ -150,7 +166,8 @@ $(function() {
         this.newPost.set({
           content: this.msg.val(),
           width: this.msg.width(),
-          height: this.msg.height()
+          height: this.msg.height(),
+          random: Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10
         });
         post = this.newPost.toJSON();
         posts.add(post);
@@ -202,9 +219,7 @@ $(function() {
     PostView.prototype.template = _.template($('#post-template').html());
     PostView.prototype.cont = $('#container');
     PostView.prototype.render = function() {
-      return this.cont.append(this.template(_.extend(this.model.toJSON(), {
-        random: Math.random() > 0.5 ? Math.random() * 10 : Math.random() * -10
-      })));
+      return this.cont.append(this.template(this.model.toJSON()));
     };
     return PostView;
   })();
@@ -231,5 +246,18 @@ $(function() {
     return PostCollection;
   })();
   wall = new Wall;
-  return posts = new PostCollection;
+  posts = new PostCollection;
+  socket = io.connect();
+  socket.on('posts', function(p) {
+    var post, _i, _len, _results;
+    _results = [];
+    for (_i = 0, _len = p.length; _i < _len; _i++) {
+      post = p[_i];
+      _results.push(posts.add(post));
+    }
+    return _results;
+  });
+  return socket.on('ready', function() {
+    return $('#container').spin(false);
+  });
 });

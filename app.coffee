@@ -50,6 +50,7 @@ io.sockets.on 'connection', (socket) ->
     for post in p
       posts.push JSON.parse post
     socket.emit 'posts', posts
+    socket.emit 'ready'
   socket.on 'new', (post) ->
     socket.broadcast.emit 'posts', [post]
     client.lpush 'posts', JSON.stringify post

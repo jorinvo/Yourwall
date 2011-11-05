@@ -2,18 +2,45 @@
 # jQuery is required...
 $ ->
 
-  socket = io.connect()
+  #Extending jQuery with spin.js
+  $.fn.spin = (opts) ->
+    @each ->
+      $this = $(this)
+      data = $this.data()
+      if data.spinner
+        data.spinner.stop()
+        delete data.spinner
+      if opts isnt false
+        data.spinner = new Spinner($.extend(
+          color: "#FFF"
+        , opts)).spin(this)
 
-  socket.on 'posts', (p) ->
-    for post in p
-      posts.add post
+    this
 
-  $('#container').delay(800).fadeIn(800)
-  $("#menu").delay(1000).slideDown(500)
+
+  #Smooth loading
   $('#message').hide()
+  
+  $('#container')
+    .spin
+      lines: 10
+      length: 11
+      width: 4
+      radius: 10
+      color: '#FFF'
+      speed: '0.9'
+      trail: 58
+      shadow: false
+    
+    .delay(800).fadeIn(800)
 
+  $("#menu").delay(1000).slideDown(500)
+
+  
+  #Settings for underscore-templates
   _.templateSettings = 
     interpolate: /\{\{(.+?)\}\}/g
+
 
   class Wall extends Backbone.View
 
@@ -119,6 +146,7 @@ $ ->
           content: @msg.val()
           width: @msg.width()
           height: @msg.height()
+          random: if (Math.random() > 0.5) then Math.random() * 10 else Math.random() * -10
         post = @newPost.toJSON()
         posts.add( post )
         socket.emit 'new', post
@@ -164,7 +192,7 @@ $ ->
 
     render: =>
 
-      @cont.append @template _.extend( @model.toJSON(), random: if (Math.random() > 0.5) then Math.random() * 10 else Math.random() * -10)
+      @cont.append @template @model.toJSON()
 
 
 
@@ -184,4 +212,15 @@ $ ->
   wall = new Wall
   posts  = new PostCollection
 
+
+
+  #Socket.io 
+  socket = io.connect()
+
+  socket.on 'posts', (p) ->
+    for post in p
+      posts.add post
+
+  socket.on 'ready', ->
+    $('#container').spin( false )
 
