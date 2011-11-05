@@ -192,7 +192,9 @@ $ ->
 
     render: =>
 
-      @cont.append @template @model.toJSON()
+      @cont
+      .append( @template @model.toJSON() )
+      .children().last().fadeIn()
 
 
 
@@ -206,7 +208,7 @@ $ ->
 
     addPost: (post) =>
       new PostView( model: post )
-      document.title = 'new Things on your Wall!'
+      document.title = 'New Things on Your Wall!'
       setTimeout (=> document.title = @title), 4000
 
   wall = new Wall

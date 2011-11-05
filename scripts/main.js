@@ -219,7 +219,7 @@ $(function() {
     PostView.prototype.template = _.template($('#post-template').html());
     PostView.prototype.cont = $('#container');
     PostView.prototype.render = function() {
-      return this.cont.append(this.template(this.model.toJSON()));
+      return this.cont.append(this.template(this.model.toJSON())).children().last().fadeIn();
     };
     return PostView;
   })();
@@ -238,7 +238,7 @@ $(function() {
       new PostView({
         model: post
       });
-      document.title = 'new Things on your Wall!';
+      document.title = 'New Things on Your Wall!';
       return setTimeout((__bind(function() {
         return document.title = this.title;
       }, this)), 4000);
