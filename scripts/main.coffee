@@ -20,7 +20,7 @@ $ ->
 
   #Smooth loading
   $('#message').hide()
-  
+
   $('#container')
     .spin
       lines: 10
@@ -31,14 +31,14 @@ $ ->
       speed: '0.9'
       trail: 58
       shadow: false
-    
+
     .delay(800).fadeIn(800)
 
   $("#menu").delay(1000).slideDown(500)
 
-  
+
   #Settings for underscore-templates
-  _.templateSettings = 
+  _.templateSettings =
     interpolate: /\{\{(.+?)\}\}/g
 
 
@@ -114,6 +114,7 @@ $ ->
       'selectableselected #colorPicker' : 'changeColor'
       'selectableselected #fontPicker'  : 'changeFont'
       'click #clickable'                : 'changePosition'
+      'dragstop #message'               : 'dragHandler'
       'click #submit'                   : 'savePost'
       'keydown #message'                : 'keyHandler'
       'click #message'                  : 'stopPropagation'
@@ -125,7 +126,7 @@ $ ->
     resizeNFocus: ->
       @resize()
       @msg.focus()
-      
+
     changeColor: (e, ui) ->
       @newPost.set
         color: $(ui.selected).css('background-color')
@@ -135,14 +136,21 @@ $ ->
         font: $(ui.selected).css('font-family')
 
     changePosition: (e) ->
-      @newPost.set position: 
-        x: e.pageX - @msg.width() / 2 - $('#container').position().left 
+      @newPost.set position:
+        x: e.pageX - @msg.width() / 2 - $('#container').position().left
         y: e.pageY - 100 - 0.5 * @frame.height()
       @msg.focus()
 
+    dragHandler: (e) ->
+      @newPost.set position:
+        x: @msg.position().left
+        y: @msg.position().top
+      @msg.focus()
+
+
     savePost: ->
       if @msg.val().length > 2
-        @newPost.set 
+        @newPost.set
           content: @msg.val()
           width: @msg.width()
           height: @msg.height()
@@ -150,7 +158,7 @@ $ ->
         post = @newPost.toJSON()
         posts.add( post )
         socket.emit 'new', post
-        @frame.fadeOut 500, => 
+        @frame.fadeOut 500, =>
           @msgVisible = no
           @newPost.set( content: '' )
 
@@ -178,7 +186,7 @@ $ ->
     clear: ->
         @view.remove()
 
- 
+
   class PostView extends Backbone.View
 
     initialize: ->
@@ -216,7 +224,7 @@ $ ->
 
 
 
-  #Socket.io 
+  #Socket.io
   socket = io.connect()
 
   socket.on 'posts', (p) ->

@@ -1,11 +1,5 @@
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-  for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-  function ctor() { this.constructor = child; }
-  ctor.prototype = parent.prototype;
-  child.prototype = new ctor;
-  child.__super__ = parent.prototype;
-  return child;
-};
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+
 $(function() {
   var Post, PostCollection, PostView, Wall, posts, socket, wall;
   $.fn.spin = function(opts) {
@@ -41,7 +35,9 @@ $(function() {
     interpolate: /\{\{(.+?)\}\}/g
   };
   Wall = (function() {
+
     __extends(Wall, Backbone.View);
+
     function Wall() {
       this.renderPosition = __bind(this.renderPosition, this);
       this.renderFont = __bind(this.renderFont, this);
@@ -50,8 +46,11 @@ $(function() {
       this.renderContent = __bind(this.renderContent, this);
       Wall.__super__.constructor.apply(this, arguments);
     }
+
     Wall.prototype.el = 'body';
+
     Wall.prototype.msgVisible = false;
+
     Wall.prototype.initialize = function() {
       this.newPost = new Post({
         content: '',
@@ -86,9 +85,11 @@ $(function() {
       $('#colorPicker').selectable();
       return $('#fontPicker').selectable();
     };
+
     Wall.prototype.renderContent = function() {
       return this.msg.val(this.newPost.get('content'));
     };
+
     Wall.prototype.renderSize = function() {
       var oldWidth;
       oldWidth = 0.5 * this.msg.width();
@@ -98,59 +99,70 @@ $(function() {
         left: this.msg.position().left + oldWidth - 0.5 * this.msg.width()
       });
     };
+
     Wall.prototype.renderColor = function() {
       return this.msg.animate({
         color: this.newPost.get('color')
       });
     };
+
     Wall.prototype.renderFont = function() {
       return this.msg.css({
         fontFamily: this.newPost.get('font')
       });
     };
+
     Wall.prototype.renderPosition = function() {
       var pos;
+      var _this = this;
       pos = this.newPost.get('position');
       this.frame.animate({
         left: pos.x - 32,
         top: pos.y
       });
       if (!this.msgVisible) {
-        this.frame.fadeIn(400, __bind(function() {
-          return this.msg.focus();
-        }, this));
+        this.frame.fadeIn(400, function() {
+          return _this.msg.focus();
+        });
         return this.msgVisible = true;
       }
     };
+
     Wall.prototype.events = {
       'slidechange #size': 'resizeNFocus',
       'slide #size': 'resize',
       'selectableselected #colorPicker': 'changeColor',
       'selectableselected #fontPicker': 'changeFont',
       'click #clickable': 'changePosition',
+      'dragstop #message': 'dragHandler',
       'click #submit': 'savePost',
       'keydown #message': 'keyHandler',
       'click #message': 'stopPropagation'
     };
+
     Wall.prototype.resize = function() {
       return this.newPost.set({
         size: this.slider.slider('value')
       });
     };
+
     Wall.prototype.resizeNFocus = function() {
       this.resize();
       return this.msg.focus();
     };
+
     Wall.prototype.changeColor = function(e, ui) {
       return this.newPost.set({
         color: $(ui.selected).css('background-color')
       });
     };
+
     Wall.prototype.changeFont = function(e, ui) {
       return this.newPost.set({
         font: $(ui.selected).css('font-family')
       });
     };
+
     Wall.prototype.changePosition = function(e) {
       this.newPost.set({
         position: {
@@ -160,8 +172,20 @@ $(function() {
       });
       return this.msg.focus();
     };
+
+    Wall.prototype.dragHandler = function(e) {
+      this.newPost.set({
+        position: {
+          x: this.msg.position().left,
+          y: this.msg.position().top
+        }
+      });
+      return this.msg.focus();
+    };
+
     Wall.prototype.savePost = function() {
       var post;
+      var _this = this;
       if (this.msg.val().length > 2) {
         this.newPost.set({
           content: this.msg.val(),
@@ -172,14 +196,15 @@ $(function() {
         post = this.newPost.toJSON();
         posts.add(post);
         socket.emit('new', post);
-        return this.frame.fadeOut(500, __bind(function() {
-          this.msgVisible = false;
-          return this.newPost.set({
+        return this.frame.fadeOut(500, function() {
+          _this.msgVisible = false;
+          return _this.newPost.set({
             content: ''
           });
-        }, this));
+        });
       }
     };
+
     Wall.prototype.keyHandler = function(e) {
       switch (e.which) {
         case 27:
@@ -192,58 +217,82 @@ $(function() {
           return this.savePost();
       }
     };
+
     Wall.prototype.stopPropagation = function(e) {
       return e.stopPropagation();
     };
+
     return Wall;
+
   })();
   Post = (function() {
+
     __extends(Post, Backbone.Model);
+
     function Post() {
       Post.__super__.constructor.apply(this, arguments);
     }
+
     Post.prototype.clear = function() {
       return this.view.remove();
     };
+
     return Post;
+
   })();
   PostView = (function() {
+
     __extends(PostView, Backbone.View);
+
     function PostView() {
       this.render = __bind(this.render, this);
       PostView.__super__.constructor.apply(this, arguments);
     }
+
     PostView.prototype.initialize = function() {
       return this.render();
     };
+
     PostView.prototype.template = _.template($('#post-template').html());
+
     PostView.prototype.cont = $('#container');
+
     PostView.prototype.render = function() {
       return this.cont.append(this.template(this.model.toJSON())).children().last().fadeIn();
     };
+
     return PostView;
+
   })();
   PostCollection = (function() {
+
     __extends(PostCollection, Backbone.Collection);
+
     function PostCollection() {
       this.addPost = __bind(this.addPost, this);
       PostCollection.__super__.constructor.apply(this, arguments);
     }
+
     PostCollection.prototype.initialize = function() {
       this.bind('add', this.addPost);
       return this.title = 'Yourwall - This Wall is for You All!';
     };
+
     PostCollection.prototype.model = Post;
+
     PostCollection.prototype.addPost = function(post) {
+      var _this = this;
       new PostView({
         model: post
       });
       document.title = 'New Things on Your Wall!';
-      return setTimeout((__bind(function() {
-        return document.title = this.title;
-      }, this)), 4000);
+      return setTimeout((function() {
+        return document.title = _this.title;
+      }), 4000);
     };
+
     return PostCollection;
+
   })();
   wall = new Wall;
   posts = new PostCollection;
