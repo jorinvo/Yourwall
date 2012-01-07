@@ -143,8 +143,8 @@ $ ->
 
     dragHandler: (e) ->
       @newPost.set position:
-        x: @msg.position().left
-        y: @msg.position().top
+        x: @frame.position().left + 32
+        y: @frame.position().top
       @msg.focus()
 
 

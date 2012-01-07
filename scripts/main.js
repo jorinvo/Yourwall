@@ -176,8 +176,8 @@ $(function() {
     Wall.prototype.dragHandler = function(e) {
       this.newPost.set({
         position: {
-          x: this.msg.position().left,
-          y: this.msg.position().top
+          x: this.frame.position().left + 32,
+          y: this.frame.position().top
         }
       });
       return this.msg.focus();
