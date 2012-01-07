@@ -10,6 +10,10 @@ client.on 'error', (err) -> console.log 'Error: ' + err
 app = module.exports = express.createServer()
 io = require('socket.io').listen(app)
 
+io.configure ->
+  io.set('transports', ['xhr-polling'])
+  io.set('heartbeat timeout', 1000)
+
 # ------------------------------------------------------------
 #  Configuration
 # ------------------------------------------------------------
@@ -40,6 +44,7 @@ app.get '/', (req, res) ->
 
 app.listen(process.env.PORT or 3000)
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)
+
 
 
 io.sockets.on 'connection', (socket) ->
