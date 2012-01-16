@@ -19,9 +19,10 @@ $ ->
 
 
   #Smooth loading
-  $('#message').hide()
 
   $('#container')
+    .fadeIn(600)
+    .delay(600)
     .spin
       lines: 10
       length: 11
@@ -32,10 +33,9 @@ $ ->
       trail: 58
       shadow: false
 
-    .delay(800).fadeIn(800)
 
-  $("#menu").delay(1000).slideDown(500)
-
+  $("#menu").animate
+    top: 0
 
   #Settings for underscore-templates
   _.templateSettings =

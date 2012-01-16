@@ -1,4 +1,6 @@
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  __hasProp = Object.prototype.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
 $(function() {
   var Post, PostCollection, PostView, Wall, posts, socket, wall;
@@ -19,8 +21,7 @@ $(function() {
     });
     return this;
   };
-  $('#message').hide();
-  $('#container').spin({
+  $('#container').fadeIn(600).delay(600).spin({
     lines: 10,
     length: 11,
     width: 4,
@@ -29,14 +30,16 @@ $(function() {
     speed: '0.9',
     trail: 58,
     shadow: false
-  }).delay(800).fadeIn(800);
-  $("#menu").delay(1000).slideDown(500);
+  });
+  $("#menu").animate({
+    top: 0
+  });
   _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
   };
-  Wall = (function() {
+  Wall = (function(_super) {
 
-    __extends(Wall, Backbone.View);
+    __extends(Wall, _super);
 
     function Wall() {
       this.renderPosition = __bind(this.renderPosition, this);
@@ -113,8 +116,8 @@ $(function() {
     };
 
     Wall.prototype.renderPosition = function() {
-      var pos;
-      var _this = this;
+      var pos,
+        _this = this;
       pos = this.newPost.get('position');
       this.frame.animate({
         left: pos.x - 32,
@@ -184,8 +187,8 @@ $(function() {
     };
 
     Wall.prototype.savePost = function() {
-      var post;
-      var _this = this;
+      var post,
+        _this = this;
       if (this.msg.val().length > 2) {
         this.newPost.set({
           content: this.msg.val(),
@@ -224,10 +227,10 @@ $(function() {
 
     return Wall;
 
-  })();
-  Post = (function() {
+  })(Backbone.View);
+  Post = (function(_super) {
 
-    __extends(Post, Backbone.Model);
+    __extends(Post, _super);
 
     function Post() {
       Post.__super__.constructor.apply(this, arguments);
@@ -239,10 +242,10 @@ $(function() {
 
     return Post;
 
-  })();
-  PostView = (function() {
+  })(Backbone.Model);
+  PostView = (function(_super) {
 
-    __extends(PostView, Backbone.View);
+    __extends(PostView, _super);
 
     function PostView() {
       this.render = __bind(this.render, this);
@@ -263,10 +266,10 @@ $(function() {
 
     return PostView;
 
-  })();
-  PostCollection = (function() {
+  })(Backbone.View);
+  PostCollection = (function(_super) {
 
-    __extends(PostCollection, Backbone.Collection);
+    __extends(PostCollection, _super);
 
     function PostCollection() {
       this.addPost = __bind(this.addPost, this);
@@ -293,7 +296,7 @@ $(function() {
 
     return PostCollection;
 
-  })();
+  })(Backbone.Collection);
   wall = new Wall;
   posts = new PostCollection;
   socket = io.connect();
