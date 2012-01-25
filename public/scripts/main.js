@@ -72,13 +72,13 @@ $(function() {
       this.newPost.bind('change:position', this.renderPosition);
       this.msg = $('#message input');
       this.frame = $('#message');
+      this.slider = $('#size');
       this.frame.draggable({
         containment: 'parent',
         delay: 150,
         distance: 8,
         cursor: 'move'
       });
-      this.slider = $('#size');
       this.slider.slider({
         animate: true,
         value: 17,

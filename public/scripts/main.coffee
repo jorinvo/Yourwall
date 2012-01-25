@@ -33,11 +33,12 @@ $ ->
       trail: 58
       shadow: false
 
-
-  $("#menu").animate
-    top: 0
+  
+  #fadeDown menu
+  $("#menu").animate(top: 0)
 
   #Settings for underscore-templates
+  #using {{data}} instead of <%= data %>
   _.templateSettings =
     interpolate: /\{\{(.+?)\}\}/g
 
@@ -50,6 +51,7 @@ $ ->
 
     initialize: ->
 
+      #set the defaults for the new post
       @newPost = new Post
         content: ''
         font: 'Sniglet'
@@ -57,20 +59,27 @@ $ ->
         color: '#fff'
         position: { x: 10, y: 10 }
 
+      #binding methods changing the view to
+      #model changes
       @newPost.bind 'change:content', @renderContent
       @newPost.bind 'change:size', @renderSize
       @newPost.bind 'change:color', @renderColor
       @newPost.bind 'change:font', @renderFont
       @newPost.bind 'change:position', @renderPosition
 
+      #caching some jQuery-elements
       @msg = $('#message input')
       @frame = $('#message')
+      @slider = $('#size')
+      
+      #enable jQuery-UI functionality
+    
       @frame.draggable
         containment: 'parent'
         delay: 150
         distance: 8
         cursor: 'move'
-      @slider = $('#size')
+
       @slider.slider
         animate: on
         value: 17
@@ -78,6 +87,7 @@ $ ->
         min: 10
 
       $('#colorPicker').selectable()
+
       $('#fontPicker').selectable()
 
 
@@ -93,6 +103,7 @@ $ ->
         .css( left: @msg.position().left + oldWidth - 0.5 * @msg.width() )
 
     renderColor: =>
+      #using jQueryUI color-animation
       @msg.animate( color: @newPost.get('color') )
 
     renderFont: =>
@@ -162,6 +173,7 @@ $ ->
           @msgVisible = no
           @newPost.set( content: '' )
 
+
     keyHandler: (e) ->
 
       switch e.which
@@ -173,11 +185,8 @@ $ ->
         when 13
           @savePost()
 
-      #
-      #   ckeck for img
 
     stopPropagation: (e) -> e.stopPropagation()
-
 
 
 
@@ -219,18 +228,21 @@ $ ->
       document.title = 'New Things on Your Wall!'
       setTimeout (=> document.title = @title), 4000
 
+  
   wall = new Wall
   posts  = new PostCollection
 
 
 
   #Socket.io
+
   socket = io.connect()
+
 
   socket.on 'posts', (p) ->
     for post in p
       posts.add post
 
+
   socket.on 'ready', ->
     $('#container').spin( false )
-

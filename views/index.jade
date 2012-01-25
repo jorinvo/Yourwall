@@ -1,25 +1,36 @@
 !!! 5
 html
+  
   head
     meta(charset='utf-8')
     meta(content='IE=edge,chrome=1', http-equiv='X-UA-Compatible')
+    
     title This Wall is for You All
+    
     meta(content='Do whatever you want. Just have Fun.', name='description')
     meta(content='jorin vogel', name='author')
+  
     meta(content='width=device-width, initial-scale=1.0', name='viewport')
+  
     link(href='styles/main.css', rel='stylesheet')
     link(href='styles/jquery-ui-1.8.16.css', rel='stylesheet')
+  
     link(href='http://fonts.googleapis.com/css?family=Monofett|Cabin+Sketch:700|Sniglet:800&v2', rel='stylesheet')
+  
   body
     #container
       #clickable
         #message
           input(maxlength=25, size=25) 
+   
     #menu
       a(href="http://github.com/jorin-vogel/Yourwall", target="blank")#logo Your Wall
+   
       #right
+   
         #sizePicker
           #size
+   
         #colorPicker
           #white.color.ui-selected
           #pink.color
@@ -28,10 +39,12 @@ html
           #green.color
           #blue.color
           #black.color
+   
         #fontPicker
           #sniglet.font.ui-selected abc
           #monofett.font abc
           #cabinSketch.font abc
+   
         #submit: div
           
 
@@ -40,15 +53,23 @@ html
         p
           {{content}}
 
+    
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.js')
     script
       window.jQuery || document.write('<script src="scripts/jquery-1.6.2.js">&lt;\/script>')
-    script(src='scripts/jquery-ui-1.8.16.js')
-    script(src='scripts/underscore.js')
-    script(src='scripts/backbone.js')
+    script(src='scripts/libs/jquery-ui-1.8.16.js')
+    
+    script(src='scripts/libs/underscore.js')
+    script(src='scripts/libs/backbone.js')
+    
+    script(src="scripts/libs/spin.min.js")
+    
     script(src="/socket.io/socket.io.js")
-    script(src="scripts/spin.min.js")
+    
+    
     script(src='scripts/main.js')
+    
+
     script
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-27655693-1']);
