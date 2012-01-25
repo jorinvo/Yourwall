@@ -6,6 +6,7 @@ Feel free to clone the repo and do with it what ever you want
 
 There is a demo aviable on [No.de](http://yourwall.no.de/).
 
+![screenshot](https://github.com/jorin-vogel/Yourwall/raw/master/screenshot.png)
 
 #Install
 
