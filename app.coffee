@@ -55,18 +55,18 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 
 io.sockets.on 'connection', (socket) ->
-  
+
   #on new connection: get all post from redis
   #and send them to the client
   client.lrange 'posts', 0, -1, (err, posts) ->
-  
+
     p = posts[0..-2]
     p.reverse()
     posts = []
-  
+
     for post in p
       posts.push JSON.parse post
-  
+
     socket.emit 'posts', posts
     socket.emit 'ready'
 
@@ -78,4 +78,4 @@ io.sockets.on 'connection', (socket) ->
   socket.on 'new', (post) ->
     socket.broadcast.emit 'posts', [post]
     client.lpush 'posts', JSON.stringify post
-    client.ltrim 'posts', 0, 50
+    client.ltrim 'posts', 0, 200
