@@ -1,10 +1,4 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
-  "private": true,
-  "engines": {
-    "node": "*"
-  },
   "dependencies": {
     "express": ">=2.4.6",
     "jade": ">= 0.0.1",
