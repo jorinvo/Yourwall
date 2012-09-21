@@ -3,10 +3,9 @@ path = require('path')
 express = require('express')
 http = require('http')
 stylus = require 'stylus'
-redis = require 'redis'
-client = redis.createClient()
+redis = require('redis-url').connect(process.env.REDISTOGO_URL or 'redis://localhost:6379')
 
-client.on 'error', (err) -> console.log 'Error: ' + err
+redis.on 'error', (err) -> console.log 'Error: ' + err
 
 app = module.exports = express()
 server = http.createServer(app)
@@ -59,7 +58,7 @@ io.sockets.on 'connection', (socket) ->
 
   #on new connection: get all post from redis
   #and send them to the client
-  client.lrange 'posts', 0, -1, (err, posts) ->
+  redis.lrange 'posts', 0, -1, (err, posts) ->
 
     p = posts[0..-2]
     p.reverse()
@@ -78,5 +77,5 @@ io.sockets.on 'connection', (socket) ->
   #the new post to all clients
   socket.on 'new', (post) ->
     socket.broadcast.emit 'posts', [post]
-    client.lpush 'posts', JSON.stringify post
-    client.ltrim 'posts', 0, 200
+    redis.lpush 'posts', JSON.stringify post
+    redis.ltrim 'posts', 0, 200
