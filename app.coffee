@@ -1,14 +1,16 @@
  # require.paths.push('/usr/local/lib/node_modules')
 path = require('path')
 express = require('express')
+http = require('http')
 stylus = require 'stylus'
 redis = require 'redis'
 client = redis.createClient()
 
 client.on 'error', (err) -> console.log 'Error: ' + err
 
-app = module.exports = express.createServer()
-io = require('socket.io').listen(app)
+app = module.exports = express()
+server = http.createServer(app)
+io = require('socket.io').listen(server)
 
 io.configure ->
   io.set('transports', ['xhr-polling'])
@@ -46,8 +48,7 @@ app.get '/', (req, res) ->
 #  Start server
 # ------------------------------------------------------------
 
-app.listen(process.env.PORT or 3000)
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env)
+server.listen(process.env.PORT or 3000)
 
 # ------------------------------------------------------------
 #  Socket.io

@@ -14,7 +14,7 @@ There is a demo aviable on [No.de](http://yourwall.no.de/).
 * clone the repo `git clone git@github.com:jorin-vogel/Yourwall.git`
 * change into the directory `cd Yourwall`
 * install the packages `npm install`
-* start redis 
+* start redis `redis-server`
 * start the server `node server.js`
 * visit [http://localhost:3000/](http://localhost:3000/) in your browser
 
