@@ -78,4 +78,4 @@ io.sockets.on 'connection', (socket) ->
   socket.on 'new', (post) ->
     socket.broadcast.emit 'posts', [post]
     redis.lpush 'posts', JSON.stringify post
-    redis.ltrim 'posts', 0, 200
+    redis.ltrim 'posts', 0, 100
