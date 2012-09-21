@@ -4,7 +4,7 @@ I created Yourwall to explore some new technologies.
 
 Feel free to clone the repo and do with it what ever you want
 
-There is a demo aviable on [No.de](http://yourwall.herokuapp.com/).
+There is a demo aviable on [Heroku](http://yourwall.herokuapp.com/).
 
 ![screenshot](https://github.com/jorin-vogel/Yourwall/raw/master/screenshot.png)
 
