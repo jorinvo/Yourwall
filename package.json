@@ -1,6 +1,9 @@
 {
-  "name": "Yourwall",
+  "name": "application-name",
   "version": "0.0.1",
+  "engines": {
+    "node": "0.6.16"
+  },
   "dependencies": {
     "express": ">=2.4.6",
     "jade": ">= 0.0.1",
