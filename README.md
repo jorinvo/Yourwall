@@ -28,3 +28,9 @@ There is a demo aviable on [Heroku](http://yourwall.herokuapp.com/).
 * [Redis](http://redis.io/)
 * [Socket.io](http://socket.io/)
 * [jQuery UI](http://jqueryui.com/)
+
+
+
+## License
+
+Code and documentation copyright 2014 Jorin Vogel. Code released under [the MIT license](LICENSE).
